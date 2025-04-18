@@ -1,13 +1,9 @@
-import { useState } from 'react'
-import './App.css'
+import Customerlist from './components/Customerlist.tsx';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      Hello World
-    </>
+    <Customerlist />
   )
 }
 
