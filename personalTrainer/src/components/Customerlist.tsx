@@ -1,30 +1,9 @@
 import { AgGridReact } from "ag-grid-react";
 import { AllCommunityModule, ModuleRegistry, ColDef } from 'ag-grid-community';
 import { useState, useEffect } from "react";
+import { Customer } from "../types";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
-
-
-type Customer = {
-	firstname: string;
-	lastname: string;
-	streetaddress: string;
-	postcode: string;
-	city: string;
-	email: string;
-	phone: string;
-	//	_links: {
-	//		self: {
-	//			href: string;
-	//		},
-	//		customer: {
-	//			href: string;
-	//		},
-	//		trainings: {
-	//			href: string;
-	//		},
-	//	}
-}
 
 export default function Customerlist() {
 
