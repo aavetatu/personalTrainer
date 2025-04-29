@@ -9,15 +9,30 @@ export default function Traininglist() {
 
 	const [trainings, setTrainings] = useState<Training[]>([]);
 
+	useEffect(() => {
+		fetchTrainings();
+	}, []);
+
+	const fetchTrainings = () => {
+		console.log(import.meta.env.VITE_API_URL + "trainings")
+		fetch(import.meta.env.VITE_API_URL + "trainings")
+			.then(response => {
+				if (!response.ok)
+					throw new Error("Error in fetch");
+				return response.json();
+			})
+			.then(data => {
+				setTrainings(data._embedded.trainings);
+			})
+			.catch(err => console.error(err));
+	};
+
 	const [columnDefs] = useState<ColDef<Training>[]>([
 		{ field: 'date', filter: true, width: 120 },
 		{ field: 'duration', filter: true, width: 150 },
 		{ field: 'activity', filter: true, width: 200 },
-		//		{ field: 'postcode', filter: true, width: 100 },
-		//		{ field: 'city', filter: true, width: 120 },
-		//		{ field: 'email', filter: true, width: 200 },
-		//		{ field: 'phone', filter: true, width: 150 },
-	])
+	]);
+
 	return (
 		<>
 			<div style={{ width: '90%', height: 500 }}>
