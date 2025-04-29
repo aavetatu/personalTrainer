@@ -1,5 +1,5 @@
 import { AgGridReact } from "ag-grid-react";
-import { AllCommunityModule, ModuleRegistry, ColDef } from 'ag-grid-community';
+import { AllCommunityModule, ModuleRegistry, ColDef } from "ag-grid-community";
 import { useState, useEffect } from "react";
 import { Training } from "../types";
 
@@ -28,14 +28,14 @@ export default function Traininglist() {
 	};
 
 	const [columnDefs] = useState<ColDef<Training>[]>([
-		{ field: 'date', filter: true, width: 120 },
-		{ field: 'duration', filter: true, width: 150 },
-		{ field: 'activity', filter: true, width: 200 },
+		{ field: "date", filter: true, width: 120 },
+		{ field: "duration", filter: true, width: 150 },
+		{ field: "activity", filter: true, width: 200 },
 	]);
 
 	return (
 		<>
-			<div style={{ width: '90%', height: 500 }}>
+			<div style={{ width: "90%", height: 500 }}>
 				<AgGridReact
 					rowData={trainings}
 					columnDefs={columnDefs}

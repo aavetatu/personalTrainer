@@ -1,4 +1,4 @@
-export type Customer = Omit<CustomerData, '_links'>;
+export type Customer = Omit<CustomerData, "_links">;
 
 export type CustomerData = {
   firstname: string;
@@ -21,7 +21,7 @@ export type CustomerData = {
   }
 }
 
-export type Training = Omit<TrainingData, '_links'>;
+export type Training = Omit<TrainingData, "_links">;
 
 export type TrainingData = {
   date: string;
