@@ -20,3 +20,22 @@ export type CustomerData = {
     },
   }
 }
+
+export type Training = Omit<TrainingData, '_links'>;
+
+export type TrainingData = {
+  date: string;
+  duration: number
+  activity: string;
+  _links: {
+    self: {
+      href: string;
+    }
+    training: {
+      href: string;
+    }
+    customer: {
+      href: string;
+    }
+  }
+}
