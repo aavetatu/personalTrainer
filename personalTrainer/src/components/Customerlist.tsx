@@ -1,5 +1,5 @@
 import { AgGridReact } from "ag-grid-react";
-import { AllCommunityModule, ModuleRegistry, ColDef } from 'ag-grid-community';
+import { AllCommunityModule, ModuleRegistry, ColDef } from "ag-grid-community";
 import { useState, useEffect } from "react";
 import { Customer } from "../types";
 
@@ -10,13 +10,13 @@ export default function Customerlist() {
 	const [customers, setCustomers] = useState<Customer[]>([]);
 
 	const [columnDefs] = useState<ColDef<Customer>[]>([
-		{ field: 'firstname', filter: true, width: 120 },
-		{ field: 'lastname', filter: true, width: 150 },
-		{ field: 'streetaddress', filter: true, width: 200 },
-		{ field: 'postcode', filter: true, width: 100 },
-		{ field: 'city', filter: true, width: 120 },
-		{ field: 'email', filter: true, width: 200 },
-		{ field: 'phone', filter: true, width: 150 },
+		{ field: "firstname", filter: true, width: 120 },
+		{ field: "lastname", filter: true, width: 150 },
+		{ field: "streetaddress", filter: true, width: 200 },
+		{ field: "postcode", filter: true, width: 100 },
+		{ field: "city", filter: true, width: 120 },
+		{ field: "email", filter: true, width: 200 },
+		{ field: "phone", filter: true, width: 150 },
 	])
 
 	useEffect(() => {
@@ -28,7 +28,7 @@ export default function Customerlist() {
 		fetch(import.meta.env.VITE_API_URL + "customers")
 			.then(response => {
 				if (!response.ok)
-					throw new Error('Error in fetch');
+					throw new Error("Error while fetching customers");
 				return response.json();
 			})
 			.then(data => {
@@ -40,7 +40,7 @@ export default function Customerlist() {
 
 	return (
 		<>
-			<div style={{ width: '90%', height: 500 }}>
+			<div style={{ width: "90%", height: 500 }}>
 				<AgGridReact
 					rowData={customers}
 					columnDefs={columnDefs}

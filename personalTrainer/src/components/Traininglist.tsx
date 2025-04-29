@@ -18,7 +18,7 @@ export default function Traininglist() {
 		fetch(import.meta.env.VITE_API_URL + "trainings")
 			.then(response => {
 				if (!response.ok)
-					throw new Error("Error in fetch");
+					throw new Error("Error while fetching trainings");
 				return response.json();
 			})
 			.then(data => {
