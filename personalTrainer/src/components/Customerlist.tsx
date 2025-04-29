@@ -31,13 +31,13 @@ export default function Customerlist() {
 	const [customers, setCustomers] = useState<Customer[]>([]);
 
 	const [columnDefs] = useState<ColDef<Customer>[]>([
-		{ field: 'firstname', filter: true },
-		{ field: 'lastname', filter: true },
-		{ field: 'streetaddress', filter: true },
-		{ field: 'postcode', filter: true },
-		{ field: 'city', filter: true },
-		{ field: 'email', filter: true },
-		{ field: 'phone', filter: true },
+		{ field: 'firstname', filter: true, width: 120 },
+		{ field: 'lastname', filter: true, width: 150 },
+		{ field: 'streetaddress', filter: true, width: 200 },
+		{ field: 'postcode', filter: true, width: 100 },
+		{ field: 'city', filter: true, width: 120 },
+		{ field: 'email', filter: true, width: 200 },
+		{ field: 'phone', filter: true, width: 150 },
 	])
 
 	useEffect(() => {
