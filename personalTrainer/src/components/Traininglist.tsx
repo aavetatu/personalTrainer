@@ -2,6 +2,7 @@ import { AgGridReact } from "ag-grid-react";
 import { AllCommunityModule, ModuleRegistry, ColDef } from "ag-grid-community";
 import { useState, useEffect } from "react";
 import { Training, TrainingData } from "../types";
+import dayjs from "dayjs";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -33,7 +34,7 @@ export default function Traininglist() {
 							const customerName = `${customerData.firstname} ${customerData.lastname}`;
 
 							return {
-								date: training.date,
+								date: dayjs(training.date).format("DD/MM/YYYY"),
 								duration: training.duration,
 								activity: training.activity,
 								customerName: customerName,
@@ -41,7 +42,7 @@ export default function Traininglist() {
 						} catch (err) {
 							console.error("Error fetching customer data", err);
 							return {
-								date: training.date,
+								date: dayjs(training.date).format("DD/MM/YYYY"),
 								duration: training.duration,
 								activity: training.activity,
 								customerName: "Unknown",
@@ -55,7 +56,7 @@ export default function Traininglist() {
 	};
 
 	const [columnDefs] = useState<ColDef<Training>[]>([
-		{ field: "date", filter: true, width: 120 },
+		{ field: "date", filter: true, width: 300 },
 		{ field: "duration", filter: true, width: 150 },
 		{ field: "activity", filter: true, width: 200 },
 		{ field: "customerName", filter: true, width: 200 },
