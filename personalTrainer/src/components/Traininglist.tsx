@@ -34,7 +34,7 @@ export default function Traininglist() {
 							const customerName = `${customerData.firstname} ${customerData.lastname}`;
 
 							return {
-								date: dayjs(training.date).format("DD/MM/YYYY"),
+								date: dayjs(training.date).format("DD/MM/YYYY HH:mm"),
 								duration: training.duration,
 								activity: training.activity,
 								customerName: customerName,
@@ -42,7 +42,7 @@ export default function Traininglist() {
 						} catch (err) {
 							console.error("Error fetching customer data", err);
 							return {
-								date: dayjs(training.date).format("DD/MM/YYYY"),
+								date: dayjs(training.date).format("DD/MM/YYYY HH:mm"),
 								duration: training.duration,
 								activity: training.activity,
 								customerName: "Unknown",
