@@ -19,9 +19,14 @@ export type CustomerData = {
       href: string;
     },
   }
-}
+};
 
-export type Training = Omit<TrainingData, "_links">;
+export type Training = {
+  date: string;
+  duration: number;
+  activity: string;
+  customerName: string;
+};
 
 export type TrainingData = {
   date: string;
@@ -38,4 +43,4 @@ export type TrainingData = {
       href: string;
     }
   }
-}
+};
