@@ -2,6 +2,8 @@ import { AgGridReact } from "ag-grid-react";
 import { AllCommunityModule, ModuleRegistry, ColDef } from "ag-grid-community";
 import { useState, useEffect } from "react";
 import { Customer } from "../types";
+import Addcustomer from "./Addcustomer";
+import { Button } from '@mui/material';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -40,6 +42,7 @@ export default function Customerlist() {
 
 	return (
 		<>
+			<Addcustomer fetchCustomers={fetchCustomers} />
 			<div style={{ width: "90%", height: 500 }}>
 				<AgGridReact
 					rowData={customers}
