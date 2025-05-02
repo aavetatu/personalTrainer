@@ -1,5 +1,5 @@
 import { AgGridReact } from "ag-grid-react";
-import { AllCommunityModule, ModuleRegistry, ColDef } from "ag-grid-community";
+import { AllCommunityModule, ModuleRegistry, ColDef, ICellRendererParams } from "ag-grid-community";
 import { useState, useEffect } from "react";
 import { Customer } from "../types";
 import Addcustomer from "./Addcustomer";
@@ -19,7 +19,26 @@ export default function Customerlist() {
 		{ field: "city", filter: true, width: 120 },
 		{ field: "email", filter: true, width: 190 },
 		{ field: "phone", filter: true, width: 140 },
-	])
+		{
+			width: 100,
+			cellRenderer: (params: ICellRendererParams) =>
+				<Button size="small" color="error" onClick={() => handleDelete(params)}>Delete</Button>,
+		},
+	]);
+
+	const handleDelete = (params: ICellRendererParams) => {
+		fetch(params.data._links.self.href, {
+			method: "DELETE",
+		})
+			.then(response => {
+				if (!response.ok)
+					throw new Error("Error while deleting customer");
+				return response.json();
+			})
+			.then(() => fetchCustomers())
+			.catch(err => console.error(err));
+
+	}
 
 	useEffect(() => {
 		fetchCustomers();
