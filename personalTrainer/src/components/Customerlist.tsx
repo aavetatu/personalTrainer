@@ -3,13 +3,14 @@ import { AllCommunityModule, ModuleRegistry, ColDef, ICellRendererParams } from 
 import { useState, useEffect } from "react";
 import { Customer } from "../types";
 import Addcustomer from "./Addcustomer";
-import { Button } from '@mui/material';
+import { Button, Snackbar } from '@mui/material';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 export default function Customerlist() {
 
 	const [customers, setCustomers] = useState<Customer[]>([]);
+	const [open, setOpen] = useState(false);
 
 	const [columnDefs] = useState<ColDef<Customer>[]>([
 		{ field: "firstname", filter: true, width: 130 },
@@ -33,11 +34,12 @@ export default function Customerlist() {
 			.then(response => {
 				if (!response.ok)
 					throw new Error("Error while deleting customer");
+
 				return response.json();
 			})
 			.then(() => fetchCustomers())
+			.then(() => setOpen(true))
 			.catch(err => console.error(err));
-
 	}
 
 	useEffect(() => {
@@ -50,10 +52,10 @@ export default function Customerlist() {
 			.then(response => {
 				if (!response.ok)
 					throw new Error("Error while fetching customers");
+
 				return response.json();
 			})
 			.then(data => {
-				console.log(data);
 				setCustomers(data._embedded.customers);
 			})
 			.catch(err => console.error(err));
@@ -62,7 +64,7 @@ export default function Customerlist() {
 	return (
 		<>
 			<Addcustomer fetchCustomers={fetchCustomers} />
-			<div style={{ width: "100", height: 650 }}>
+			<div style={{ width: "90", height: 650 }}>
 				<AgGridReact
 					rowData={customers}
 					columnDefs={columnDefs}
@@ -70,6 +72,12 @@ export default function Customerlist() {
 					paginationAutoPageSize={true}
 				/>
 			</div>
+			<Snackbar
+				open={open}
+				autoHideDuration={3000}
+				onClose={() => setOpen(false)}
+				message="Customer deleted successfully"
+			/>
 		</>
 	);
 }
