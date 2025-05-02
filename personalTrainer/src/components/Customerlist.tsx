@@ -3,6 +3,7 @@ import { AllCommunityModule, ModuleRegistry, ColDef, ICellRendererParams } from 
 import { useState, useEffect } from "react";
 import { Customer } from "../types";
 import Addcustomer from "./Addcustomer";
+import Editcustomer from "./Editcustomer";
 import { Button, Snackbar } from '@mui/material';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -20,6 +21,11 @@ export default function Customerlist() {
 		{ field: "city", filter: true, width: 120 },
 		{ field: "email", filter: true, width: 190 },
 		{ field: "phone", filter: true, width: 140 },
+		{
+			width: 100,
+			cellRenderer: (params: ICellRendererParams) =>
+				<Editcustomer data={params.data} fetchCustomers={fetchCustomers} />,
+		},
 		{
 			width: 100,
 			cellRenderer: (params: ICellRendererParams) =>

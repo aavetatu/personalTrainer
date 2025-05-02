@@ -1,27 +1,37 @@
-import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from "@mui/material";
-import { Customer } from "../types";
 import { useState } from "react";
+import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from "@mui/material";
+import { Customer, CustomerData } from "../types";
 
-type AddCustomerProps = {
+type EditCustomerProps = {
+	data: CustomerData;
 	fetchCustomers: () => void;
 }
 
-export default function Addcustomer(props: AddCustomerProps) {
+export default function Addcustomer(props: EditCustomerProps) {
 
 	const [customer, setCustomer] = useState<Customer>({} as Customer);
 	const [open, setOpen] = useState(false);
 
 	const handleClickOpen = () => {
 		setOpen(true);
+		setCustomer({
+			firstname: props.data.firstname,
+			lastname: props.data.lastname,
+			email: props.data.email,
+			phone: props.data.phone,
+			streetaddress: props.data.streetaddress,
+			postcode: props.data.postcode,
+			city: props.data.city,
+		})
 	};
 
 	const handleClose = () => {
 		setOpen(false);
 	};
 
-	const handleSave = () => {
-		fetch(import.meta.env.VITE_API_URL + "customers", {
-			method: "POST",
+	const handleUpdate = () => {
+		fetch(props.data._links.self.href, {
+			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -29,7 +39,7 @@ export default function Addcustomer(props: AddCustomerProps) {
 		})
 			.then(response => {
 				if (!response.ok) {
-					throw new Error("Error while adding customer");
+					throw new Error("Error while updating customer");
 				}
 				return response.json();
 			})
@@ -41,13 +51,13 @@ export default function Addcustomer(props: AddCustomerProps) {
 	return (
 		<>
 			<Button variant="outlined" onClick={handleClickOpen}>
-				Add Customer
+				Edit
 			</Button>
 			<Dialog
 				open={open}
 				onClose={handleClose}
 			>
-				<DialogTitle>Add a new Customer</DialogTitle>
+				<DialogTitle>Update Customer</DialogTitle>
 				<DialogContent>
 					<TextField
 						required
@@ -122,7 +132,7 @@ export default function Addcustomer(props: AddCustomerProps) {
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleClose}>Cancel</Button>
-					<Button onClick={handleSave}>Save</Button>
+					<Button onClick={handleUpdate}>Save</Button>
 				</DialogActions>
 			</Dialog>
 
