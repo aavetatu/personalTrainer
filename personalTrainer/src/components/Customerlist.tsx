@@ -62,10 +62,12 @@ export default function Customerlist() {
 	return (
 		<>
 			<Addcustomer fetchCustomers={fetchCustomers} />
-			<div style={{ width: "90%", height: 500 }}>
+			<div style={{ width: "100", height: 650 }}>
 				<AgGridReact
 					rowData={customers}
 					columnDefs={columnDefs}
+					pagination={true}
+					paginationAutoPageSize={true}
 				/>
 			</div>
 		</>
