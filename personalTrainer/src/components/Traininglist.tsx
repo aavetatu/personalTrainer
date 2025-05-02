@@ -2,6 +2,7 @@ import { AgGridReact } from "ag-grid-react";
 import { AllCommunityModule, ModuleRegistry, ColDef } from "ag-grid-community";
 import { useState, useEffect } from "react";
 import { Training, TrainingData } from "../types";
+import Addtraining from "./Addtraining";
 import dayjs from "dayjs";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -64,6 +65,7 @@ export default function Traininglist() {
 
 	return (
 		<>
+			<Addtraining fetchTrainings={fetchTrainings} />
 			<div style={{ width: "90%", height: 500 }}>
 				<AgGridReact
 					rowData={trainings}
