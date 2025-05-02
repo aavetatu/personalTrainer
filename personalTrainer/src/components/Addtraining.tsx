@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from "@mui/material";
-import { Training } from "../types";
 
 type AddTrainingProps = {
 	fetchTrainings: () => void;
-}
+};
 
 export default function Addtraining(props: AddTrainingProps) {
 

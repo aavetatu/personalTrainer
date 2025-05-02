@@ -46,7 +46,7 @@ export default function Customerlist() {
 			.then(() => fetchCustomers())
 			.then(() => setOpen(true))
 			.catch(err => console.error(err));
-	}
+	};
 
 	useEffect(() => {
 		fetchCustomers();

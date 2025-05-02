@@ -26,6 +26,7 @@ export type Training = {
   duration: number;
   activity: string;
   customerName: string;
+  selfLink: string;
 };
 
 export type TrainingData = {
