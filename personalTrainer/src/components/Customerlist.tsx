@@ -14,13 +14,13 @@ export default function Customerlist() {
 	const [open, setOpen] = useState(false);
 
 	const [columnDefs] = useState<ColDef<Customer>[]>([
-		{ field: "firstname", filter: true, width: 130 },
-		{ field: "lastname", filter: true, width: 140 },
-		{ field: "streetaddress", filter: true, width: 190 },
+		{ field: "firstname", filter: true, width: 120 },
+		{ field: "lastname", filter: true, width: 120 },
+		{ field: "streetaddress", filter: true, width: 170 },
 		{ field: "postcode", filter: true, width: 120 },
-		{ field: "city", filter: true, width: 120 },
+		{ field: "city", filter: true, width: 110 },
 		{ field: "email", filter: true, width: 190 },
-		{ field: "phone", filter: true, width: 140 },
+		{ field: "phone", filter: true, width: 120 },
 		{
 			width: 100,
 			cellRenderer: (params: ICellRendererParams) =>
