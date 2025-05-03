@@ -1,20 +1,38 @@
-import { useState } from "react";
-import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, MenuItem } from "@mui/material";
+import { data } from "react-router-dom";
 
 type AddTrainingProps = {
 	fetchTrainings: () => void;
+};
+
+type Customer = {
+	firstname: string;
+	lastname: string;
+	_links: {
+		self: {
+			href: string;
+		};
+	};
 };
 
 export default function Addtraining(props: AddTrainingProps) {
 
 	const [training, setTraining] = useState({
 		date: "",
-		duration: "",
+		duration: 0,
 		activity: "",
 		customer: "",
 	});
-
+	const [customers, setCustomers] = useState<Customer[]>([]);
 	const [open, setOpen] = useState(false);
+
+	useEffect(() => {
+		fetch(import.meta.env.VITE_API_URL + "customers")
+			.then(response => response.json())
+			.then(data => setCustomers(data._embedded.customers))
+			.catch(err => console.error("Error while fetching customers", err));
+	}, []);
 
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -25,19 +43,19 @@ export default function Addtraining(props: AddTrainingProps) {
 	};
 
 	const handleSave = () => {
-		const newtraining = {
-			date: new Date(training.date).toISOString(),
-			duration: training.duration,
-			activity: training.activity,
-			customer: training.customer, // needs fixing, requires full URL
-		};
+		//		const newtraining = {
+		//			date: new Date(training.date).toISOString(),
+		//			duration: training.duration,
+		//			activity: training.activity,
+		//			customer: training.customer, // needs fixing, requires full URL
+		//		};
 
 		fetch(import.meta.env.VITE_API_URL + "trainings", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(newtraining)
+			body: JSON.stringify(training)
 		})
 			.then(response => {
 				if (!response.ok) {
@@ -78,7 +96,7 @@ export default function Addtraining(props: AddTrainingProps) {
 						name="duration"
 						type="number"
 						value={training.duration}
-						onChange={event => setTraining({ ...training, duration: event.target.value })}
+						onChange={event => setTraining({ ...training, duration: Number(event.target.value) })}
 						label="duration"
 						fullWidth
 						variant="standard"
@@ -94,22 +112,29 @@ export default function Addtraining(props: AddTrainingProps) {
 						variant="standard"
 					/>
 					<TextField
+						select
 						required
 						margin="dense"
-						name="customerName"
+						name="customer"
 						value={training.customer}
 						onChange={event => setTraining({ ...training, customer: event.target.value })}
 						label="customer"
 						fullWidth
 						variant="standard"
-					/>
+					>{customers.map((customer, index) => (
+						<MenuItem
+							key={index}
+							value={customer._links.self.href}>
+							{customer.firstname} {customer.lastname}
+						</MenuItem>
+					))}
+					</TextField>
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleClose}>Cancel</Button>
 					<Button onClick={handleSave}>Save</Button>
 				</DialogActions>
 			</Dialog>
-
 		</>
 	)
 }
