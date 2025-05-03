@@ -34,18 +34,20 @@ export default function Customerlist() {
 	]);
 
 	const handleDelete = (params: ICellRendererParams) => {
-		fetch(params.data._links.self.href, {
-			method: "DELETE",
-		})
-			.then(response => {
-				if (!response.ok)
-					throw new Error("Error while deleting customer");
-
-				return response.json();
+		if (window.confirm("Are you sure you want to delete this customer?")) {
+			fetch(params.data._links.self.href, {
+				method: "DELETE",
 			})
-			.then(() => fetchCustomers())
-			.then(() => setOpen(true))
-			.catch(err => console.error(err));
+				.then(response => {
+					if (!response.ok)
+						throw new Error("Error while deleting customer");
+
+					return response.json();
+				})
+				.then(() => fetchCustomers())
+				.then(() => setOpen(true))
+				.catch(err => console.error(err));
+		}
 	};
 
 	useEffect(() => {

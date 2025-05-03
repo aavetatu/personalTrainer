@@ -74,16 +74,18 @@ export default function Traininglist() {
 	]);
 
 	const handleDelete = (params: ICellRendererParams) => {
-		fetch(params.data.selfLink, {
-			method: "DELETE",
-		})
-			.then(response => {
-				if (!response.ok)
-					throw new Error("Error while deleting training");
+		if (window.confirm("Are you sure you want to delete this training?")) {
+			fetch(params.data.selfLink, {
+				method: "DELETE",
 			})
-			.then(() => fetchTrainings())
-			.then(() => setOpen(true))
-			.catch(err => console.error(err));
+				.then(response => {
+					if (!response.ok)
+						throw new Error("Error while deleting training");
+				})
+				.then(() => fetchTrainings())
+				.then(() => setOpen(true))
+				.catch(err => console.error(err));
+		}
 	};
 
 	return (
