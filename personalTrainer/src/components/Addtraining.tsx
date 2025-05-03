@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, MenuItem } from "@mui/material";
-import { data } from "react-router-dom";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 type AddTrainingProps = {
 	fetchTrainings: () => void;
@@ -18,6 +20,7 @@ type Customer = {
 
 export default function Addtraining(props: AddTrainingProps) {
 
+	const [date, setDate] = useState<dayjs.Dayjs | null>(null);
 	const [training, setTraining] = useState({
 		date: "",
 		duration: 0,
@@ -43,19 +46,24 @@ export default function Addtraining(props: AddTrainingProps) {
 	};
 
 	const handleSave = () => {
-		//		const newtraining = {
-		//			date: new Date(training.date).toISOString(),
-		//			duration: training.duration,
-		//			activity: training.activity,
-		//			customer: training.customer, // needs fixing, requires full URL
-		//		};
+		if (!date) {
+			console.error("Date is required");
+			return;
+		}
+
+		const newTraining = {
+			date: date.toISOString(),
+			duration: training.duration,
+			activity: training.activity,
+			customer: training.customer,
+		};
 
 		fetch(import.meta.env.VITE_API_URL + "trainings", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(training)
+			body: JSON.stringify(newTraining)
 		})
 			.then(response => {
 				if (!response.ok) {
@@ -79,17 +87,14 @@ export default function Addtraining(props: AddTrainingProps) {
 			>
 				<DialogTitle>Add a new Training</DialogTitle>
 				<DialogContent>
-					<TextField
-						required
-						margin="dense"
-						name="date"
-						type="datetime-local"
-						value={training.date}
-						onChange={event => setTraining({ ...training, date: event.target.value })}
-						label="date"
-						fullWidth
-						variant="standard"
-					/>
+					<LocalizationProvider dateAdapter={AdapterDayjs}>
+						<DatePicker
+							label="Date"
+							value={date}
+							format="DD/MM/YYYY HH:mm"
+							onChange={newDate => setDate(newDate)}
+						/>
+					</LocalizationProvider>
 					<TextField
 						required
 						margin="dense"
