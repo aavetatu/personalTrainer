@@ -1,15 +1,15 @@
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import { useState, useEffect } from 'react';
-import { Training } from '../types';
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import { useState, useEffect } from "react";
+import { Training } from "../types";
 
 export default function Calendar() {
 	const [events, setEvents] = useState<Training[]>([]);
 
 	useEffect(() => {
-		fetch(import.meta.env.VITE_API_URL + 'trainings')
+		fetch(import.meta.env.VITE_API_URL + "trainings")
 			.then((response) => response.json())
 			.then((data) => {
 				const formattedData = data._embedded.trainings.map((training: Training) => ({
@@ -26,9 +26,9 @@ export default function Calendar() {
 			plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
 			initialView="dayGridMonth"
 			headerToolbar={{
-				left: 'prev,next today',
-				center: 'title',
-				right: 'dayGridMonth,timeGridWeek,timeGridDay',
+				left: "prev,next today",
+				center: "title",
+				right: "dayGridMonth,timeGridWeek,timeGridDay",
 			}}
 			events={events}
 			height="auto"

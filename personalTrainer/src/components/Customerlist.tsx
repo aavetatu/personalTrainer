@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Customer } from "../types";
 import Addcustomer from "./Addcustomer";
 import Editcustomer from "./Editcustomer";
-import { Button, Snackbar } from '@mui/material';
+import { Button, Snackbar } from "@mui/material";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
