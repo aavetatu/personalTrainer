@@ -9,15 +9,14 @@ function App() {
   return (
     <>
       <Container maxWidth="lg">
-        <AppBar position="static" >
+        <AppBar position="static">
           <Toolbar>
             <Typograpy variant="h6">
               <nav>
-                <Link to={"/"}>Customers</Link>
-                {" "}| {" "}
-                <Link to={"/trainings"}>Trainings</Link>
-                {" "}| {" "}
-                <Link to={"/calendar"}>Calendar</Link>
+                <Link to={"/"}>Customers</Link> |{" "}
+                <Link to={"/trainings"}>Trainings</Link> |{" "}
+                <Link to={"/calendar"}>Calendar</Link> |{" "}
+                <Link to={"/chart"}>Chart</Link>
               </nav>
             </Typograpy>
           </Toolbar>
@@ -26,7 +25,7 @@ function App() {
         <CssBaseline />
       </Container>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
