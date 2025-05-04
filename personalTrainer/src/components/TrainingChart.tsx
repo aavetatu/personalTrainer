@@ -1,11 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Training } from '../types';
 import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { groupBy, sumBy } from "lodash";
 
 
 export default function TrainingChart() {
 
-	const [chartData, setChartData] = useState<Training[]>([]);
+	const [trainingData, setTrainingData] = useState<Training[]>([]);
+	const activities = groupBy(trainingData, "activity");
+
+	const chartData = Object.entries(activities).map(([activity, sessions]) => ({
+		activity,
+		totalDuration: sumBy(sessions, "duration"),
+	}));
 
 	useEffect(() => {
 		fetch(import.meta.env.VITE_API_URL + "trainings")
@@ -15,7 +22,7 @@ export default function TrainingChart() {
 					activity: training.activity,
 					duration: training.duration,
 				}));
-				setChartData(formattedData);
+				setTrainingData(formattedData);
 			})
 	}, []);
 
@@ -24,7 +31,7 @@ export default function TrainingChart() {
 			<XAxis dataKey="activity" />
 			<YAxis />
 			<Tooltip />
-			<Bar dataKey="duration" fill="#8884d8" />
+			<Bar dataKey="totalDuration" fill="#8884d8" />
 		</BarChart>
 	)
 }
