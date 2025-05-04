@@ -14,6 +14,7 @@ function App() {
             <Typograpy variant="h6">
               <nav>
                 <Link to={"/"}>Customers</Link>
+                {" "}| {" "}
                 <Link to={"/trainings"}>Trainings</Link>
               </nav>
             </Typograpy>
