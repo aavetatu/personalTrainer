@@ -125,7 +125,6 @@ export default function Addcustomer(props: AddCustomerProps) {
 					<Button onClick={handleSave}>Save</Button>
 				</DialogActions>
 			</Dialog>
-
 		</>
 	)
 }
