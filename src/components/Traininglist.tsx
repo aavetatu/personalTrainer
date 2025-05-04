@@ -32,29 +32,29 @@ export default function Traininglist() {
         const trainingData: TrainingData[] = data._embedded.trainings;
 
         const trainingWithCustomers: Training[] = await Promise.all(
-          trainingData.map(async (training) => {
+          trainingData.map(async (t) => {
             try {
-              const customerRes = await fetch(training._links.customer.href);
-              if (!customerRes.ok)
+              const customerResponse = await fetch(t._links.customer.href);
+              if (!customerResponse.ok)
                 throw new Error("Error while fetching customer data");
-              const customerData = await customerRes.json();
+              const customerData = await customerResponse.json();
               const customerName = `${customerData.firstname} ${customerData.lastname}`;
 
               return {
-                date: dayjs(training.date).format("DD/MM/YYYY HH:mm"),
-                duration: training.duration,
-                activity: training.activity,
+                date: dayjs(t.date).format("DD/MM/YYYY HH:mm"),
+                duration: t.duration,
+                activity: t.activity,
                 customerName: customerName,
-                selfLink: training._links.self.href,
+                selfLink: t._links.self.href,
               };
             } catch (err) {
               console.error("Error fetching customer data", err);
               return {
-                date: dayjs(training.date).format("DD/MM/YYYY HH:mm"),
-                duration: training.duration,
-                activity: training.activity,
+                date: dayjs(t.date).format("DD/MM/YYYY HH:mm"),
+                duration: t.duration,
+                activity: t.activity,
                 customerName: "Unknown",
-                selfLink: training._links.self.href,
+                selfLink: t._links.self.href,
               };
             }
           }),
