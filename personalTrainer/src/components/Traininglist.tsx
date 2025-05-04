@@ -1,6 +1,6 @@
 import { AgGridReact } from "ag-grid-react";
 import { AllCommunityModule, ModuleRegistry, ColDef, ICellRendererParams, CsvExportModule } from "ag-grid-community";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Training, TrainingData } from "../types";
 import Addtraining from "./Addtraining";
 import dayjs from "dayjs";
@@ -61,14 +61,18 @@ export default function Traininglist() {
 			.catch(err => console.error(err));
 	};
 
+	interface ExtendedColDef<DataType = any> extends ColDef<DataType> {
+		suppressCsvExport?: boolean;
+	};
 
-	const [columnDefs] = useState<ColDef<Training>[]>([
+	const [columnDefs] = useState<ExtendedColDef<Training>[]>([
 		{ field: "date", filter: true, width: 300 },
 		{ field: "duration", filter: true, width: 150 },
 		{ field: "activity", filter: true, width: 200 },
 		{ field: "customerName", filter: true, width: 200 },
 		{
 			width: 100,
+			suppressCsvExport: true,
 			cellRenderer: (params: ICellRendererParams) =>
 				<Button size="small" color="error" onClick={() => handleDelete(params)}>Delete</Button>,
 		},
@@ -91,7 +95,12 @@ export default function Traininglist() {
 
 	const handleExport = () => {
 		if (gridApi.current) {
-			gridApi.current.exportDataAsCsv();
+			const exportableColumns = columnDefs
+				.filter(col => col.field)
+				.map(col => col.field)
+			gridApi.current.exportDataAsCsv({
+				columnKeys: exportableColumns
+			});
 		}
 	};
 
