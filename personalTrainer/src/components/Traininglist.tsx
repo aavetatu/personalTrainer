@@ -1,6 +1,6 @@
 import { AgGridReact } from "ag-grid-react";
-import { AllCommunityModule, ModuleRegistry, ColDef, ICellRendererParams } from "ag-grid-community";
-import { useState, useEffect } from "react";
+import { AllCommunityModule, ModuleRegistry, ColDef, ICellRendererParams, CsvExportModule } from "ag-grid-community";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Training, TrainingData } from "../types";
 import Addtraining from "./Addtraining";
 import dayjs from "dayjs";
@@ -12,6 +12,7 @@ export default function Traininglist() {
 
 	const [trainings, setTrainings] = useState<Training[]>([]);
 	const [open, setOpen] = useState(false);
+	const gridApi = useRef<any>(null);
 
 	useEffect(() => {
 		fetchTrainings();
@@ -88,13 +89,23 @@ export default function Traininglist() {
 		}
 	};
 
+	const handleExport = () => {
+		if (gridApi.current) {
+			gridApi.current.exportDataAsCsv();
+		}
+	};
+
 	return (
 		<>
 			<Addtraining fetchTrainings={fetchTrainings} />
+			<Button onClick={handleExport}>Export to CSV</Button>
 			<div style={{ width: "90%", height: 500 }}>
 				<AgGridReact
 					rowData={trainings}
 					columnDefs={columnDefs}
+					onGridReady={(params) => {
+						gridApi.current = params.api;
+					}}
 				/>
 			</div>
 			<Snackbar
