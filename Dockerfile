@@ -1,16 +1,16 @@
-#Newest node version as base image
-FROM node:24.7.0-alpine3.21 AS dev
+# Build stage
+FROM node:24.7.0-alpine3.21 AS builder
 
-#Set the working directory inside the container 
+# Set the working directory
 WORKDIR /usr/src/app
 
-#Copy dependencies
+# Copy dependencies
 COPY package*.json ./
 
-#Install dependencies
-RUN npm install
+# Install dependencies
+RUN npm ci
 
-#Copy the rest of the code
+# Copy source code
 COPY . .
 
 #Expose backend port
