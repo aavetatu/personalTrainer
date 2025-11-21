@@ -1,11 +1,12 @@
 # Build stage
-FROM node:24.7.0-alpine3.21 AS builder
+FROM node:24.7.0-alpine3.21 AS build
 
 # Set the working directory
-WORKDIR /usr/src/app
+WORKDIR /usr/app
 
 # Copy dependencies
-COPY package*.json ./
+COPY package*.json .
+COPY tsconfig*.json .
 
 # Install dependencies
 RUN npm ci
@@ -13,10 +14,15 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-#Expose backend port
-EXPOSE 5173
+# Build app
+RUN npm run build
 
-ENV PORT=5173
+# Production stage 
+FROM nginx:alpine
 
-#Start the backend in development mode
-CMD ["npm", "run", "dev"]
+# Copy files for built app
+COPY --from=build /usr/app/dist /usr/share/nginx/html
+
+# Serve app in exposed port 80
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
