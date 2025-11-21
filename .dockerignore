@@ -1,3 +1,5 @@
 Dockerfile
 readme.md
 README.md
+dist/
+local*
